@@ -1,0 +1,60 @@
+name: Generate and deploy site
+on:
+  # Documentation can be either manually updated or is automatically updated when pushed to main branch
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+
+# Make sure deploy-pages has necessary permissions to deploy to GitHub Pages
+permissions:
+  pages: write
+  id-token: write
+
+  # Cancel older deploy workflow when more than one is running
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Build and deploy documentation site
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }} # Output URL after the workflow has finished
+    steps:
+      # Checkout repository including submodules
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      # Setup Node
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: 'npm'
+
+      # Install dependencies
+      - run: npm ci
+
+      # Build site
+      - name: Build Documentation
+        id: build
+        run: npm run build
+
+      # Upload artifact from the ./build/ directory using the expected format for GitHub Pages
+      - name: Upload Artifact
+        id: upload
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./build/
+
+      # Use previously uploaded artifact to deploy to GitHub Pages
+      - name: Deploy
+        id: deploy
+        uses: actions/deploy-pages@v4
