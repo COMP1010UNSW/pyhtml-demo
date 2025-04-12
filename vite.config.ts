@@ -9,8 +9,7 @@ import { fileURLToPath } from 'url';
 const PYODIDE_EXCLUDE = [
     '!**/*.{md,html}',
     '!**/*.d.ts',
-    // Need to include .whl files or micropip won't load correctly
-    // '!**/*.whl',
+    '!**/*.whl',
     '!**/node_modules',
 ];
 

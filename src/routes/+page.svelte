@@ -21,11 +21,13 @@ p.html(
 
   let htmlCode = $state('');
 
+  // TODO: Display errors nicely if the user messes up
   async function renderHtml() {
     htmlCode = await evalPyHTML(pyhtmlCode);
   }
 
   let pyodideReady = $state(false);
+  let pyodideError: string | undefined = $state(undefined);
 
   let pyodideStatus = $state('Please wait...');
 
@@ -34,10 +36,14 @@ p.html(
   }
 
   onMount(async () => {
-    await getPyodide(pyodideStatusUpdate);
-    console.log('Pyodide is ready');
-    renderHtml();
-    pyodideReady = true;
+    try {
+      await getPyodide(pyodideStatusUpdate);
+      renderHtml();
+      pyodideReady = true;
+    } catch (e) {
+      console.error(e);
+      pyodideError = `${e}`;
+    }
   });
 </script>
 
@@ -63,13 +69,17 @@ p.html(
       <pre><code>{htmlCode}</code></pre>
     </div>
   </main>
+{:else if pyodideError}
+  <h2>Oh no!</h2>
+  <p>Pyodide failed to load!</p>
+  <p>{pyodideError}</p>
 {:else}
-<div class="status-outer">
-  <div class="status-inner">
-    <i class="las la-sync spin"></i>
-    <p class="status-text">{pyodideStatus}</p>
+  <div class="status-outer">
+    <div class="status-inner">
+      <i class="las la-sync spin"></i>
+      <p class="status-text">{pyodideStatus}</p>
+    </div>
   </div>
-</div>
 {/if}
 
 <style>

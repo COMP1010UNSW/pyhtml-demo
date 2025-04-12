@@ -15,6 +15,7 @@ async function pyodideInit(onStatusUpdate: (status: string) => void) {
   const micropip = pyodide.pyimport("micropip");
   onStatusUpdate("micropip install pyhtml-enhanced");
   await micropip.install('pyhtml-enhanced');
+  onStatusUpdate("Almost there...");
   return pyodide;
 }
 
