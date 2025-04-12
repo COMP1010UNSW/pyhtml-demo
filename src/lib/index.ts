@@ -1,12 +1,30 @@
-import { loadPyodide } from 'pyodide';
+import { loadPyodide, type PyodideInterface } from 'pyodide';
+
 
 /**
  * Set up Pyodide and install pyhtml-enhanced.
  */
-export async function pythonInit() {
-  let pyodide = await loadPyodide();
+async function pyodideInit() {
+  const pyodide = await loadPyodide();
   await pyodide.loadPackage("micropip");
   const micropip = pyodide.pyimport("micropip");
   await micropip.install('pyhtml-enhanced');
   return pyodide;
+}
+
+let pyodide: PyodideInterface;
+
+export async function getPyodide() {
+  if (pyodide) return pyodide;
+  pyodide = await pyodideInit();
+  return pyodide;
+}
+
+export async function evalPyHTML(pyhtml: string): Promise<string> {
+  const code = `import pyhtml as p
+document = ${pyhtml}
+str(document)
+`;
+  const pyodide = await getPyodide();
+  return pyodide.runPython(code) as string;
 }
