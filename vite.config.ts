@@ -9,7 +9,8 @@ import { fileURLToPath } from 'url';
 const PYODIDE_EXCLUDE = [
     '!**/*.{md,html}',
     '!**/*.d.ts',
-    '!**/*.whl',
+    // Need to include .whl files or micropip won't load correctly
+    // '!**/*.whl',
     '!**/node_modules',
 ];
 
@@ -19,7 +20,8 @@ export function viteStaticCopyPyodide() {
         targets: [
             {
                 src: [join(pyodideDir, '*')].concat(PYODIDE_EXCLUDE),
-                dest: 'assets',
+                // Don't export to 'assets', or we'll get a 404 in production
+                dest: '_app/immutable/nodes',
             },
         ],
     });
@@ -27,7 +29,7 @@ export function viteStaticCopyPyodide() {
 
 
 export default defineConfig({
-    plugins: [sveltekit(), viteStaticCopyPyodide()],
+    plugins: [viteStaticCopyPyodide(), sveltekit()],
     optimizeDeps: { exclude: ["pyodide"] },
     test: {
         workspace: [{
