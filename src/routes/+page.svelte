@@ -27,8 +27,14 @@ p.html(
 
   let pyodideReady = $state(false);
 
+  let pyodideStatus = $state('Please wait...');
+
+  function pyodideStatusUpdate(status: string) {
+    pyodideStatus = status;
+  }
+
   onMount(async () => {
-    await getPyodide();
+    await getPyodide(pyodideStatusUpdate);
     console.log('Pyodide is ready');
     renderHtml();
     pyodideReady = true;
@@ -37,7 +43,6 @@ p.html(
 
 <h1>Try out PyHTML</h1>
 {#if pyodideReady}
-  <p class="status">Pyodide loaded successfully!</p>
   <main>
     <div class="editor">
       <h2>Write some code</h2>
@@ -59,7 +64,12 @@ p.html(
     </div>
   </main>
 {:else}
-  <p class="status">Pyodide is loading...</p>
+<div class="status-outer">
+  <div class="status-inner">
+    <i class="las la-sync spin"></i>
+    <p class="status-text">{pyodideStatus}</p>
+  </div>
+</div>
 {/if}
 
 <style>
@@ -68,28 +78,64 @@ p.html(
   }
 
   h1 {
+    margin: 0px;
+    padding: 10px;
+  }
+  h1,
+  h2 {
     text-align: center;
   }
 
-  .status {
-    text-align: center;
-  }
-
-  main {
-    display: grid;
-    grid-template-areas:
-      'editor preview'
-      'editor html';
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-
+  /* Status message when loading */
+  .status-outer {
     width: 100%;
-    min-height: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  .status-inner {
+    min-width: 300px;
+    display: flex;
+    gap: 10px;
+  }
+  .status-text {
+    width: 100%;
+  }
+  .spin {
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: rotating 2s linear infinite;
+  }
+  @keyframes rotating {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Responsive design */
+  @media only screen and (min-width: 1000px) {
+    main {
+      display: grid;
+      grid-template-areas:
+        'editor preview'
+        'editor html';
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+
+      width: 100%;
+      height: 100%;
+    }
   }
 
   .editor {
     grid-area: editor;
     height: 100%;
+    width: 100%;
+    overflow: scroll;
   }
 
   .preview {
@@ -104,5 +150,10 @@ p.html(
   .html {
     grid-area: html;
     height: 100%;
+    width: 100%;
+  }
+
+  .html pre {
+    overflow: scroll;
   }
 </style>
