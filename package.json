@@ -34,7 +34,9 @@
 		"vitest": "^3.0.0"
 	},
 	"dependencies": {
+		"@codemirror/lang-python": "^6.1.7",
 		"pyodide": "^0.27.5",
+		"svelte-codemirror-editor": "^1.4.1",
 		"vite-plugin-static-copy": "^2.3.1"
 	}
 }

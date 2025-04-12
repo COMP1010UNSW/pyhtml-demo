@@ -21,10 +21,6 @@ export async function getPyodide() {
 }
 
 export async function evalPyHTML(pyhtml: string): Promise<string> {
-  const code = `import pyhtml as p
-document = ${pyhtml}
-str(document)
-`;
   const pyodide = await getPyodide();
-  return pyodide.runPython(code) as string;
+  return pyodide.runPython(pyhtml) as string;
 }
