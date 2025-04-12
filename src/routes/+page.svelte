@@ -35,11 +35,12 @@ p.html(
   });
 </script>
 
-<h1>Test out PyHTML</h1>
+<h1>Try out PyHTML</h1>
 {#if pyodideReady}
-  <p>Pyodide loaded successfully!</p>
+  <p class="status">Pyodide loaded successfully!</p>
   <main>
     <div class="editor">
+      <h2>Write some code</h2>
       <CodeMirror
         bind:value={pyhtmlCode}
         lang={python()}
@@ -48,18 +49,32 @@ p.html(
     </div>
 
     <div class="preview">
+      <h2>Page preview</h2>
       <iframe srcdoc={htmlCode} title="PyHTML preview" frameborder="0"></iframe>
     </div>
 
     <div class="html">
+      <h2>HTML preview</h2>
       <pre><code>{htmlCode}</code></pre>
     </div>
   </main>
 {:else}
-  <p>Pyodide is loading...</p>
+  <p class="status">Pyodide is loading...</p>
 {/if}
 
 <style>
+  :root {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+
+  h1 {
+    text-align: center;
+  }
+
+  .status {
+    text-align: center;
+  }
+
   main {
     display: grid;
     grid-template-areas:
