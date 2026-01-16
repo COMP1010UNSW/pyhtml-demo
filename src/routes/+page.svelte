@@ -158,10 +158,13 @@ p.html(
   .preview {
     grid-area: preview;
     height: 100%;
+    display: flex;
+    flex-direction: column;
   }
   .preview iframe {
     width: 100%;
     height: 100%;
+    border: 1px solid black;
   }
 
   .html {
