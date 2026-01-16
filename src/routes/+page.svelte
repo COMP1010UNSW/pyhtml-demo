@@ -1,9 +1,28 @@
 <script lang="ts">
   import { evalPyHTML, getPyodide } from '$lib';
   import { onMount } from 'svelte';
+  import { MediaQuery } from 'svelte/reactivity';
+  // Editor
   import CodeMirror from 'svelte-codemirror-editor';
-  import { python } from '@codemirror/lang-python';
-  import { html } from '@codemirror/lang-html';
+  // Editor syntax highlights
+  import { python as langPython } from '@codemirror/lang-python';
+  import { html as langHtml } from '@codemirror/lang-html';
+  // Editor themes
+  import { highContrastDark } from '@fsegurai/codemirror-theme-high-contrast-dark';
+  import { highContrastLight } from '@fsegurai/codemirror-theme-high-contrast-light';
+  import { materialDark } from '@fsegurai/codemirror-theme-material-dark';
+  import { materialLight } from '@fsegurai/codemirror-theme-material-light';
+
+  const prefersDark = new MediaQuery('prefers-color-scheme: dark');
+  const prefersHighContrast = new MediaQuery('prefers-contrast: more');
+
+  const editorTheme = $derived.by(() => {
+    if (prefersDark.current) {
+      return prefersHighContrast.current ? highContrastDark : materialDark;
+    } else {
+      return prefersHighContrast.current ? highContrastLight : materialLight;
+    }
+  });
 
   let pyhtmlCode = $state(
     `import pyhtml as p
@@ -61,9 +80,10 @@ p.html(
       <h2>Write some code</h2>
       <CodeMirror
         bind:value={pyhtmlCode}
-        lang={python()}
+        lang={langPython()}
         tabSize={4}
         onchange={renderHtml}
+        theme={editorTheme}
       />
     </div>
 
@@ -77,17 +97,19 @@ p.html(
         <h2>HTML preview</h2>
         <CodeMirror
           value={htmlCode}
-          lang={html()}
+          lang={langHtml()}
           tabSize={2}
           editable={false}
+          theme={editorTheme}
         />
       {:else}
         <h2>Evaluation error</h2>
         <CodeMirror
           value={pythonError}
-          lang={python()}
+          lang={langPython()}
           tabSize={4}
           editable={false}
+          theme={editorTheme}
         />
       {/if}
     </div>
@@ -181,11 +203,24 @@ p.html(
     width: 100%;
     height: 100%;
     border: 1px solid black;
+    background-color: white;
   }
 
   .html {
     grid-area: html;
     height: 100%;
     width: 100%;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color: white;
+      background-color: #121212;
+    }
+    @media (prefers-contrast: more) {
+      :root {
+        background-color: black;
+      }
+    }
   }
 </style>
