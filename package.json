@@ -32,9 +32,10 @@
 		"vite-plugin-commonjs": "^0.10.4"
 	},
 	"dependencies": {
+		"@codemirror/lang-html": "^6.4.11",
 		"@codemirror/lang-python": "^6.1.7",
 		"pyodide": "^0.29.1",
-		"svelte-codemirror-editor": "^1.4.1",
+		"svelte-codemirror-editor": "^2.1.0",
 		"vite-plugin-static-copy": "^3.1.4"
 	},
 	"overrides": {
