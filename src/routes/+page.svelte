@@ -3,6 +3,7 @@
   import { onMount } from 'svelte';
   import CodeMirror from 'svelte-codemirror-editor';
   import { python } from '@codemirror/lang-python';
+  import { html } from '@codemirror/lang-html';
 
   let pyhtmlCode = $state(
     `import pyhtml as p
@@ -55,7 +56,8 @@ p.html(
       <CodeMirror
         bind:value={pyhtmlCode}
         lang={python()}
-        on:change={renderHtml}
+        tabSize={4}
+        onchange={renderHtml}
       />
     </div>
 
@@ -66,7 +68,12 @@ p.html(
 
     <div class="html">
       <h2>HTML preview</h2>
-      <pre><code>{htmlCode}</code></pre>
+      <CodeMirror
+        value={htmlCode}
+        lang={html()}
+        tabSize={2}
+        editable={false}
+      />
     </div>
   </main>
 {:else if pyodideError}
@@ -161,9 +168,5 @@ p.html(
     grid-area: html;
     height: 100%;
     width: 100%;
-  }
-
-  .html pre {
-    overflow: scroll;
   }
 </style>

@@ -29,5 +29,5 @@ export async function getPyodide(onStatusUpdate: (status: string) => void) {
 
 export async function evalPyHTML(pyhtml: string): Promise<string> {
   const pyodide = await getPyodide(() => { });
-  return pyodide.runPython(pyhtml) as string;
+  return `${pyodide.runPython(pyhtml)}`;
 }
