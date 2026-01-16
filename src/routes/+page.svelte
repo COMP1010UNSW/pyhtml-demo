@@ -21,10 +21,16 @@ p.html(
   );
 
   let htmlCode = $state('');
+  let pythonError = $state('');
 
-  // TODO: Display errors nicely if the user messes up
   async function renderHtml() {
-    htmlCode = await evalPyHTML(pyhtmlCode);
+    try {
+      htmlCode = await evalPyHTML(pyhtmlCode);
+      pythonError = '';
+    } catch (e) {
+      htmlCode = '';
+      pythonError = `${e}`;
+    }
   }
 
   let pyodideReady = $state(false);
@@ -67,13 +73,23 @@ p.html(
     </div>
 
     <div class="html">
-      <h2>HTML preview</h2>
-      <CodeMirror
-        value={htmlCode}
-        lang={html()}
-        tabSize={2}
-        editable={false}
-      />
+      {#if pythonError === ''}
+        <h2>HTML preview</h2>
+        <CodeMirror
+          value={htmlCode}
+          lang={html()}
+          tabSize={2}
+          editable={false}
+        />
+      {:else}
+        <h2>Evaluation error</h2>
+        <CodeMirror
+          value={pythonError}
+          lang={python()}
+          tabSize={4}
+          editable={false}
+        />
+      {/if}
     </div>
   </main>
 {:else if pyodideError}
