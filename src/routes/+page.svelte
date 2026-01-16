@@ -38,7 +38,7 @@ p.html(
   onMount(async () => {
     try {
       await getPyodide(pyodideStatusUpdate);
-      renderHtml();
+      await renderHtml();
       pyodideReady = true;
     } catch (e) {
       console.error(e);

@@ -1,8 +1,7 @@
-import { svelteTesting } from '@testing-library/svelte/vite';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
-import { dirname, join } from 'path';
+import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'url';
 
 
@@ -30,28 +29,4 @@ export function viteStaticCopyPyodide() {
 export default defineConfig({
     plugins: [viteStaticCopyPyodide(), sveltekit()],
     optimizeDeps: { exclude: ["pyodide"] },
-    test: {
-        workspace: [{
-            extends: './vite.config.ts',
-            plugins: [svelteTesting()],
-
-            test: {
-                name: 'client',
-                environment: 'jsdom',
-                clearMocks: true,
-                include: ['src/**/*.svelte.{test,spec}.{js,ts}'],
-                exclude: ['src/lib/server/**'],
-                setupFiles: ['./vitest-setup-client.ts']
-            }
-        }, {
-            extends: './vite.config.ts',
-
-            test: {
-                name: 'server',
-                environment: 'node',
-                include: ['src/**/*.{test,spec}.{js,ts}'],
-                exclude: ['src/**/*.svelte.{test,spec}.{js,ts}']
-            }
-        }]
-    }
 });
