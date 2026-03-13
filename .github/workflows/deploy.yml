@@ -7,14 +7,13 @@ on:
       - main
 
 
-# Make sure deploy-pages has necessary permissions to deploy to GitHub Pages
 permissions:
   pages: write
   id-token: write
 
-  # Cancel older deploy workflow when more than one is running
 concurrency:
   group: pages
+  # Cancel older deploy workflow when more than one is running
   cancel-in-progress: true
 
 jobs:
@@ -25,36 +24,28 @@ jobs:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }} # Output URL after the workflow has finished
     steps:
-      # Checkout repository including submodules
       - name: Checkout
         id: checkout
         uses: actions/checkout@v6
-        with:
-          submodules: true
 
-      # Setup Node
-      - name: Use Node.js 22.x
+      - name: Set up Node
         uses: actions/setup-node@v6
         with:
-          node-version: 22.x
-          cache: 'npm'
+          node-version-file: ".nvmrc"
+          cache: "npm"
 
-      # Install dependencies
       - run: npm ci
 
-      # Build site
       - name: Build Site
         id: build
         run: npm run build
 
-      # Upload artifact from the ./build/ directory using the expected format for GitHub Pages
       - name: Upload Artifact
         id: upload
         uses: actions/upload-pages-artifact@v4
         with:
           path: ./build/
 
-      # Use previously uploaded artifact to deploy to GitHub Pages
       - name: Deploy
         id: deploy
         uses: actions/deploy-pages@v4
