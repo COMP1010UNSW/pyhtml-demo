@@ -1,14 +1,13 @@
 import { loadPyodide, type PyodideInterface } from 'pyodide';
 
-const PYODIDE_VERSION = 'v0.29.3';
-
 /**
  * Set up Pyodide and install pyhtml-enhanced.
  */
 async function pyodideInit(onStatusUpdate: (status: string) => void) {
   onStatusUpdate('Loading pyodide...');
   const pyodide = await loadPyodide({
-    indexURL: `https://cdn.jsdelivr.net/pyodide/${PYODIDE_VERSION}/full`,
+    // import.meta.env.PYODIDE_VERSION comes from `vite.config.ts`
+    indexURL: `https://cdn.jsdelivr.net/pyodide/v${import.meta.env.PYODIDE_VERSION}/full`,
   });
   onStatusUpdate('Loading micropip...');
   await pyodide.loadPackage('micropip');

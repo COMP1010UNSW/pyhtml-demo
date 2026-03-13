@@ -19,7 +19,7 @@
 		"@sveltejs/vite-plugin-svelte": "^6.2.4",
 		"@tanstack/eslint-plugin-query": "^5.91.4",
 		"@types/eslint": "^9.6.1",
-		"@types/node": "^22.19.1",
+		"@types/node": "^24.12.0",
 		"eslint": "^9.39.4",
 		"eslint-plugin-n": "^17.24.0",
 		"eslint-plugin-svelte": "^3.15.2",
