@@ -1,6 +1,6 @@
 import { loadPyodide, type PyodideInterface } from 'pyodide';
 
-const PYODIDE_VERSION = 'v0.29.1';
+const PYODIDE_VERSION = 'v0.29.3';
 
 /**
  * Set up Pyodide and install pyhtml-enhanced.
