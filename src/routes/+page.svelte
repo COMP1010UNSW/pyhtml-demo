@@ -77,18 +77,21 @@ p.html(
   <title>Try out PyHTML</title>
 </svelte:head>
 
-<h1>Try out PyHTML</h1>
-{#if pyodideReady}
-  <main>
+<main>
+
+  <h1 class="title">Try out PyHTML</h1>
+  {#if pyodideReady}
     <div class="editor">
       <h2>Write some code</h2>
-      <CodeMirror
-        bind:value={pyhtmlCode}
-        lang={langPython()}
-        tabSize={4}
-        onchange={renderHtml}
-        theme={editorTheme}
-      />
+      <div class="code-block">
+        <CodeMirror
+          bind:value={pyhtmlCode}
+          lang={langPython()}
+          tabSize={4}
+          onchange={renderHtml}
+          theme={editorTheme}
+        />
+      </div>
     </div>
 
     <div class="preview">
@@ -99,49 +102,74 @@ p.html(
     <div class="html">
       {#if pythonError === ''}
         <h2>HTML preview</h2>
-        <CodeMirror
-          value={htmlCode}
-          lang={langHtml()}
-          tabSize={2}
-          editable={false}
-          theme={editorTheme}
-        />
+        <div class="code-block">
+          <CodeMirror
+            value={htmlCode}
+            lang={langHtml()}
+            tabSize={2}
+            editable={false}
+            theme={editorTheme}
+          />
+        </div>
       {:else}
         <h2>Evaluation error</h2>
-        <CodeMirror
-          value={pythonError}
-          lang={langPython()}
-          tabSize={4}
-          editable={false}
-          theme={editorTheme}
-        />
+        <div class="code-block">
+          <CodeMirror
+            value={pythonError}
+            lang={langPython()}
+            tabSize={4}
+            editable={false}
+            theme={editorTheme}
+          />
+        </div>
       {/if}
     </div>
-  </main>
-{:else if pyodideError}
-  <h2>Oh no!</h2>
-  <p>Pyodide failed to load!</p>
-  <p>{pyodideError}</p>
-{:else}
-  <div class="status-outer">
-    <div class="status-inner">
-      <i class="las la-sync spin"></i>
-      <p class="status-text">{pyodideStatus}</p>
+  {:else if pyodideError}
+    <h2>Oh no!</h2>
+    <p>Pyodide failed to load!</p>
+    <p>{pyodideError}</p>
+  {:else}
+    <div class="status-outer">
+      <div class="status-inner">
+        <i class="las la-sync spin"></i>
+        <p class="status-text">{pyodideStatus}</p>
+      </div>
     </div>
-  </div>
-{/if}
+  {/if}
+</main>
 
 <style>
   :root {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Responsive design */
+  @media only screen and (min-width: 1000px) {
+    main {
+      display: grid;
+      grid-template-areas:
+        'title title'
+        'editor preview'
+        'editor html';
+      grid-template-columns: 50% 50%;
+      grid-template-rows: 100px calc(50% - 50px) calc(50% - 50px);
+      height: 100%;
+      max-height: 100vh;
+    }
+  }
+
+  main {
+    height: 100%;
   }
 
   h1 {
     margin: 0px;
     padding: 10px;
   }
-  h1,
-  h2 {
+
+  h1, h2 {
     text-align: center;
   }
 
@@ -175,26 +203,17 @@ p.html(
     }
   }
 
-  /* Responsive design */
-  @media only screen and (min-width: 1000px) {
-    main {
-      display: grid;
-      grid-template-areas:
-        'editor preview'
-        'editor html';
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr 1fr;
-
-      width: 100%;
-      height: 100%;
-    }
-  }
-
-  .editor {
-    grid-area: editor;
+  .code-block {
     height: 100%;
     width: 100%;
     overflow: scroll;
+  }
+
+  .title {
+    grid-area: title;
+  }
+  .editor {
+    grid-area: editor;
   }
 
   .preview {
@@ -212,8 +231,6 @@ p.html(
 
   .html {
     grid-area: html;
-    height: 100%;
-    width: 100%;
   }
 
   @media (prefers-color-scheme: dark) {
