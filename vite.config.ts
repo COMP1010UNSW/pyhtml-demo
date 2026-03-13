@@ -10,6 +10,17 @@ type Package = {
   // ...
 };
 
+// TypeScript doesn't seem to be aware that RegExp.escape exists, due to it
+// being relatively new.
+// Manually delcare it.
+// https://github.com/microsoft/TypeScript/issues/61321#issuecomment-2872057073
+declare global {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+  interface RegExpConstructor {
+    escape(str: string): string,
+  }
+}
+
 function getPackageVersion(pkg: string): string {
   const matcher = new RegExp(`/${RegExp.escape(pkg)}$`);
   for (const p of Object.keys(packageLock.packages)) {
