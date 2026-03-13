@@ -73,6 +73,10 @@ p.html(
   });
 </script>
 
+<svelte:head>
+  <title>Try out PyHTML</title>
+</svelte:head>
+
 <h1>Try out PyHTML</h1>
 {#if pyodideReady}
   <main>
