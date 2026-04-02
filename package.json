@@ -28,7 +28,8 @@
 		"typescript": "^5.9.3",
 		"typescript-eslint": "^8.57.0",
 		"vite": "^8.0.3",
-		"vite-plugin-commonjs": "^0.10.4"
+		"vite-plugin-commonjs": "^0.10.4",
+		"vite-plugin-static-copy": "^4.0.0"
 	},
 	"dependencies": {
 		"@codemirror/lang-html": "^6.4.11",
@@ -38,8 +39,7 @@
 		"@fsegurai/codemirror-theme-material-dark": "^6.2.3",
 		"@fsegurai/codemirror-theme-material-light": "^6.2.3",
 		"pyodide": "^0.29.3",
-		"svelte-codemirror-editor": "^2.1.0",
-		"vite-plugin-static-copy": "^4.0.0"
+		"svelte-codemirror-editor": "^2.1.0"
 	},
 	"overrides": {
 		"@sveltejs/kit": {
