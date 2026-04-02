@@ -34,12 +34,13 @@ function getPackageVersion(pkg: string): string {
   throw Error(`Package not found in package-lock.json: ${pkg}`);
 }
 
-
+// Bundle pyodide
+// https://pyodide.org/en/stable/usage/working-with-bundlers.html#vite
 const PYODIDE_EXCLUDE = [
   '!**/*.{md,html}',
   '!**/*.d.ts',
   '!**/*.whl',
-  '!**/node_modules',
+  '!**/pyodide/node_modules',
 ];
 
 export function viteStaticCopyPyodide() {
