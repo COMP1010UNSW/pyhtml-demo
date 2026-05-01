@@ -36,7 +36,7 @@
 		"@codemirror/lang-html": "^6.4.11",
 		"@codemirror/lang-python": "^6.2.1",
 		"@fsegurai/codemirror-theme-high-contrast-dark": "^6.0.0",
-		"@fsegurai/codemirror-theme-high-contrast-light": "^6.0.0",
+		"@fsegurai/codemirror-theme-high-contrast-light": "^6.0.2",
 		"@fsegurai/codemirror-theme-material-dark": "^6.2.3",
 		"@fsegurai/codemirror-theme-material-light": "^6.2.3",
 		"pyodide": "^0.29.3",
