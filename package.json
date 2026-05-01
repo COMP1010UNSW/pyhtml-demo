@@ -38,7 +38,7 @@
 		"@fsegurai/codemirror-theme-high-contrast-dark": "^6.0.0",
 		"@fsegurai/codemirror-theme-high-contrast-light": "^6.0.0",
 		"@fsegurai/codemirror-theme-material-dark": "^6.2.3",
-		"@fsegurai/codemirror-theme-material-light": "^6.2.3",
+		"@fsegurai/codemirror-theme-material-light": "^6.2.5",
 		"pyodide": "^0.29.3",
 		"svelte-codemirror-editor": "^2.1.0"
 	},
