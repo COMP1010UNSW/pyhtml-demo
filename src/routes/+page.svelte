@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { evalPyHTML, getPyodide } from '$lib';
+  import { evalPyHTML, getPyodide } from '#lib';
   import { onMount } from 'svelte';
   import { MediaQuery } from 'svelte/reactivity';
   // Editor
