@@ -5,7 +5,7 @@ import { defineConfig } from 'vite';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'url';
-import packageLock from './package-lock.json';
+import packageLock from './package-lock.json' with { type: 'json' };
 
 type Package = { version: string };
 
