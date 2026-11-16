@@ -1,3 +1,5 @@
+import adapter from '@sveltejs/adapter-static';
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
@@ -5,11 +7,9 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'url';
 import packageLock from './package-lock.json';
 
-type Package = {
-  version: string;
-  // ...
-};
+type Package = { version: string };
 
+// ...
 // TypeScript doesn't seem to be aware that RegExp.escape exists, due to it
 // being relatively new.
 // Manually delcare it.
@@ -58,7 +58,15 @@ export function viteStaticCopyPyodide() {
 
 
 export default defineConfig({
-  plugins: [viteStaticCopyPyodide(), sveltekit()],
+  plugins: [
+    viteStaticCopyPyodide(),
+    sveltekit({
+      // Consult https://svelte.dev/docs/kit/integrations
+      // for more information about preprocessors
+      preprocess: vitePreprocess(),
+      adapter: adapter()
+    })
+  ],
   optimizeDeps: { exclude: ["pyodide"] },
   // Get pyodide version
   // Based on: https://www.codestudy.net/blog/how-can-i-display-the-current-app-version-from-package-json-to-the-user-using-vite/#method-2-inject-version-via-vite-config-recommended
